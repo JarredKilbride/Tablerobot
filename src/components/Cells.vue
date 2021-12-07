@@ -15,8 +15,9 @@ export default {
     props: ['cell','robot'],
     // props:[cell]
     setup(props){
-        let cell = ref(props.cell)
-        let robot = ref(props.robot)
+        //need to rename
+        let cells = ref(props.cell)
+        // let robot = ref(props.robot)
 
     const robotActive = computed(()=>{
         if(props.cell.x == props.robot.x && props.cell.y == props.robot.y){
@@ -26,7 +27,7 @@ export default {
             return false
         }
     })
-        return {cell,robotActive}
+        return {cells,robotActive}
     },
 
 
@@ -35,7 +36,7 @@ export default {
 
 <style>
  .cell {
-    width: 64px;
+    width: 80px;
     height: 64px;
     border: 2px solid rgb(75,75,75);
     

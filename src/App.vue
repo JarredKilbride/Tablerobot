@@ -7,7 +7,7 @@
 
     <!-- cells -->
     <!-- key needs to be changed. -->
-    <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.x + cell.y"/>
+    <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.key"/>
 
   </div>
   {{currentDirection}}
@@ -49,7 +49,10 @@ for(let y = 4; y>=0; y--) {
         cells.value.push({
         x:x,
         y: y,
-        robotOnSqaure:false})
+        robotOnSqaure:false,
+        // temp
+        key: Math.floor(Math.random() * 1000)
+        })
     }
 }
 
