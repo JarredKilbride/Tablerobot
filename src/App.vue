@@ -2,7 +2,7 @@
 <div>
 
   <!-- input/controller. -->
-  <Controller @direction="setDirection" @move="move" @report="showReport"/>
+  <Controller @direction="setDirection" @move="move" @report="showReport" @setPosition="place"/>
   <div class="table-top">
 
     <!-- cells -->
@@ -36,8 +36,8 @@ export default {
       val:null})
     //creating robot object
     let robot = ref({
-      x:3,
-      y:2,
+      x:null,
+      y:null,
       facing:'', 
       reportActive:false
     })
@@ -71,6 +71,9 @@ let move = () => {
    && robot.value.y+currentDirection.value.val>-1)){
      robot.value.x += currentDirection.value.val
    }
+   else {
+     console.log(robot.value.y+currentDirection.value.val)
+   }
 }
 
 //this emited from the controller.vue
@@ -83,10 +86,19 @@ const setDirection = (event)=> {
 
 //emited from the controller.vue, shows robot report.
 const showReport = ()=> {
+  if(robot.value.x!==null){
   robot.value.reportActive = !robot.value.reportActive
+  }
 }
 
-  return {cells,robot,setDirection,move,currentDirection,showReport}
+//emit from the controller. user selects the starting cell
+const place = (e) => {
+  //using parseInt to convert the drop down from string to number
+  robot.value.x = parseInt(e.x)
+  robot.value.y = parseInt(e.y)
+}
+
+  return {cells,robot,setDirection,move,currentDirection,showReport,place}
   }
 }
 
