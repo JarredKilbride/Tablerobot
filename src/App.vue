@@ -130,7 +130,7 @@ body {
 /* class to create the grid */
 .table-top {
     display: grid;
-    grid-template-columns: repeat(5, 100px);
+    grid-template-columns: repeat(5, 157.7px);
     margin: auto;
     /* height: 204px; */
 }

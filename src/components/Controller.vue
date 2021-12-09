@@ -51,7 +51,7 @@
         <div class="col mass-input">
         <h3>Mass input</h3>
         <p>Submit a action by pressing enter</p>
-        <input v-model="input" type="text" @keydown.enter.prevent="handleKeyDown">
+        <input v-model="input" type="text" @keydown.enter.prevent="handleKeyDown" class="form-control">
         <div class="mass-input-textarea">
             {{multInput}}
         </div>
@@ -201,12 +201,27 @@ export default {
 
         //emits function place on app.vue and sets the robots Position
         function userSetPosition(){
+            // checks to see if the facing input is blank if so defaults it to north
+            if(axis.value.facing== '') {
+                axis.value.facing='North'
                 emit('setPosition',axis.value)
                 for(let key in dirVal.value) {
                     if(key == axis.value.facing) {
                         turn.value = dirVal.value[key]
                     }
                 }
+                } else {
+                emit('setPosition',axis.value)
+                for(let key in dirVal.value) {
+                    if(key == axis.value.facing) {
+                        turn.value = dirVal.value[key]
+                    }
+                }
+                }
+                //set the inputs to blank when place button is pressed.
+                axis.value.y = ''
+                axis.value.x = ''
+                axis.value.facing = '' 
 
         }
 

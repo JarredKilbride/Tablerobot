@@ -1,7 +1,6 @@
 <template>
   <div class="cell">
-      <p v-if="robotActive">{{robotActive}}</p>
-    
+        <Robot :robot="robot" v-if="robotActive" />
       <!-- <div v-if="robotActive">
           {{robot.y}}
       </div> -->
@@ -11,8 +10,12 @@
 
 <script>
 import {computed, ref } from 'vue'
+import Robot from '../components/Robot'
 export default {
     props: ['cell','robot'],
+        components: {
+        Robot
+    }, 
     // props:[cell]
     setup(props){
         //need to rename
@@ -36,8 +39,8 @@ export default {
 
 <style>
  .cell {
-    width: 100px;
-    height: 100px;
+    width: 157.7px;
+    height: 157.7px;
     border: 2px solid rgb(75,75,75);
     
     display: flex;
