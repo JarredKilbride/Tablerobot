@@ -1,0 +1,18 @@
+$primary:#121212;
+$secondary:#272727; 
+$surface:white;
+
+// changing default background color
+$body-bg: $primary;
+// $body-color: #ffffffCC;
+$dropdown-link-color: white;
+
+// TODO: overwrite variables to style the app for the client's theme
+// $tertiary: #218f8b;
+
+// // Add "tertiary" styles to the generated classes
+// $theme-colors: (
+//   "tertiary": $tertiary, 
+// );
+//importing bootstrap sass files.
+@import '../../node_modules/bootstrap/scss/bootstrap';

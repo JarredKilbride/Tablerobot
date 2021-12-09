@@ -1,7 +1,7 @@
 <template>
   <div class="cell">
-      <p></p>
-      {{robotActive}}
+      <p v-if="robotActive">{{robotActive}}</p>
+    
       <!-- <div v-if="robotActive">
           {{robot.y}}
       </div> -->
@@ -36,8 +36,8 @@ export default {
 
 <style>
  .cell {
-    width: 80px;
-    height: 64px;
+    width: 100px;
+    height: 100px;
     border: 2px solid rgb(75,75,75);
     
     display: flex;

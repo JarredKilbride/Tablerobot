@@ -1,19 +1,19 @@
 <template>
-<div>
-
-  <!-- input/controller. -->
-  <Controller @direction="setDirection" @move="move" @report="showReport" @setPosition="place"/>
-  <div class="table-top">
-
+<div class="row">
+ <div class="col flex-jc-c">
+    <!-- input/controller. -->
+    <Controller class="controller" :robot="robot" @direction="setDirection" @move="move" @report="showReport" @setPosition="place" @updateDir="updateRobotDir"/>
+  </div>
+  <div class="flex-jc-c table-top col">
+   
+    <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.key"/>
     <!-- cells -->
     <!-- key needs to be changed. -->
-    <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.key"/>
-
   </div>
-  {{currentDirection}}
+  <!-- {{currentDirection}} -->
   <!-- report for robot. -->
   <div v-if="robot.reportActive">
-  {{robot}}
+  <!-- {{robot}} -->
   </div>
  </div> 
 </template>
@@ -31,6 +31,7 @@ export default {
   }, 
   setup(){
     //currentDirection the robot is facing
+    //not needed
     let currentDirection = ref({
       dir:null,
       val:null})
@@ -56,20 +57,24 @@ for(let y = 4; y>=0; y--) {
     }
 }
 
+let updateRobotDir = (e) => {
+    robot.value.facing = e
+}
+
 // when user clicks on move buttom emits this function
 //moves the stage direction to the robot and makes it move.
-let move = () => {
+let move = (e) => {
   //checks to see if the currentDirection y or x aixes
   //once checked looks to see if the total value would be greater the cells on the table. 
-  if(currentDirection.value.dir=='y'
-   && (robot.value.y+currentDirection.value.val<5 
-   && robot.value.y+currentDirection.value.val>-1)){
-    robot.value.y += currentDirection.value.val
+  if(e.dir=='y'
+   && (robot.value.y+e.val<5 
+   && robot.value.y+e.val>-1)){
+    robot.value.y += e.val
   }
-  else if (currentDirection.value.dir=='x'
-   && (robot.value.y+currentDirection.value.val<5 
-   && robot.value.y+currentDirection.value.val>-1)){
-     robot.value.x += currentDirection.value.val
+  else if (e.dir=='x'
+   && (robot.value.x+e.val<5 
+   && robot.value.x+e.val>-1)){
+     robot.value.x += e.val
    }
    else {
      console.log(robot.value.y+currentDirection.value.val)
@@ -96,30 +101,48 @@ const place = (e) => {
   //using parseInt to convert the drop down from string to number
   robot.value.x = parseInt(e.x)
   robot.value.y = parseInt(e.y)
+  robot.value.facing = e.facing
+
 }
 
-  return {cells,robot,setDirection,move,currentDirection,showReport,place}
+  return {cells,robot,setDirection,move,currentDirection,showReport,place,updateRobotDir}
   }
 }
 
 </script>
 
 <style>
+body {
+  background:black
+}
+
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffffCC;
   margin-top: 60px;
 }
+
+/* class to create the grid */
 .table-top {
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
     margin: auto;
     /* height: 204px; */
-  
 }
+
+.flex-jc-c{
+ justify-content: center;
+}
+
+
+ .controller {
+   width: 700px;
+   margin:auto; 
+ }
 
 </style>
