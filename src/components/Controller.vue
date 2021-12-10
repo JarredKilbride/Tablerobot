@@ -1,7 +1,10 @@
 <template>
+<!-- select starting spot -->
   <div class="Panels">
       <section class="starting-input bg-secondary">
-      <h3>Pick your Starting Position</h3>
+      <h3 class="panel-header">Pick your Starting Position</h3>
+      <!-- hiden text but shows if a user trys to submit with  no values. -->
+      <p class="text-error" v-if="axis.error" >Error! you must fill in all feilds</p>
       <div class="starting-inner">
           <div class="col">
             <label> <b> X : </b></label>
@@ -33,33 +36,41 @@
             </select>
             </div>
         </div>
-            <button  class="place-button btn btn-danger
+            <button  class="place-button btn btn-action-primary
 " @click.prevent="userSetPosition">Place!</button>
     </section>
+
+    <!-- UI Controller -->
     <section class="bg-secondary">
-        <h3>Controlls</h3>
+        <h3 class="panel-header">Controlls</h3>
         <div class="controls">
-                <button class="btn btn-danger" @click.prevent="trunLeft">Left</button>
-        <button class="btn btn-danger" @click.prevent="trunRight">Right</button>
-        <button class="btn btn-danger" @click.prevent="move()">Move!</button>
+                <button class="btn btn-action-secondary" @click.prevent="trunLeft">Left</button>
+        <button class="btn btn-action-secondary" @click.prevent="trunRight">Right</button>
+        <button class="btn btn-action-primary" @click.prevent="move()">Move!</button>
         </div>
     </section>
-    <!-- {{turn}} -->
 
+    <!-- 3rd panel-->
     <section class="bg-secondary">
         <div class="row">
+            <!-- mass input -->
         <div class="col mass-input">
-        <h3>Mass input</h3>
-        <p>Submit a action by pressing enter</p>
+        <h3 class="panel-header">Mass input</h3>
+        <p>Stage a action by pressing enter <br>
+            Vaild commands: Move,Right,and Left. 
+        </p>
         <input v-model="input" type="text" @keydown.enter.prevent="handleKeyDown" class="form-control">
-        <div class="mass-input-textarea">
-            {{multInput}}
+        <div class="mass-input-textarea bg-primary">
+           <P v-for="action in multInput" :key="action">C:\user\System\Actions\{{action}} </P>
         </div>
-        <button class="btn btn-danger" @click.prevent="massInputMove">Run Mass input</button>
+        <button class="btn btn-action-primary" @click.prevent="massInputMove">Run Input</button>
         </div>
+
+        <!-- report -->
         <div class="col report-display">
-            <RobotReport v-show="robot.reportActive" :robot="robot"/>
-            <button class="btn btn-danger" @click.prevent="report()">Report</button>
+            <RobotReport v-if="robot.reportActive" @reportClose="report" :robot="robot"/>
+            <!-- apply v-else to remove the button when report is active. -->
+            <button v-else class="btn btn-action-primary" @click.prevent="report()">Report</button>
         </div>
         </div>
     </section>
@@ -71,6 +82,7 @@ import {ref } from 'vue'
 import RobotReport from './RobotReport.vue'
 export default {
     props:['robot'],
+    name:'control',
     components: {
         RobotReport
     }, 
@@ -100,18 +112,20 @@ export default {
                 }         
         })
 
-
+        //mass input var.
         let input = ref('')
+        // staging var for the mass input.
         let multInput = ref([])
 
-        //input for the place componet
+        //input var for the place component
         let axis = ref({
-            x:0,
-            y:0, 
-            facing:""
+            x:'',
+            y:'', 
+            facing:"", 
+            error:false
         })
 
-        //state for the current dir
+        //stageing var for moving.
         let turn = ref({
                 val: 0,
                 dir: "x",
@@ -127,11 +141,13 @@ export default {
             //pushes to array
             multInput.value.push(upperCase)
         }
-        //sets the input feild to be place for the user.
+        //sets the input feild blank for the use dosent need to delete the previous entry.
         input.value = ''
     }
 
+    //run the mass inputs.
     function massInputMove (){
+        //checks to see what commands they are and run function based on them.
         multInput.value.map(data => {
             switch(data){
                 case 'LEFT':
@@ -202,16 +218,15 @@ export default {
         //emits function place on app.vue and sets the robots Position
         function userSetPosition(){
             // checks to see if the facing input is blank if so defaults it to north
-            if(axis.value.facing== '') {
-                axis.value.facing='North'
-                emit('setPosition',axis.value)
-                for(let key in dirVal.value) {
-                    if(key == axis.value.facing) {
-                        turn.value = dirVal.value[key]
-                    }
-                }
+
+            if(!axis.value.facing ||!axis.value.x || !axis.value.y) {
+                //if anything is blank on the place input display error for user.
+                axis.value.error = true
                 } else {
+                    axis.value.error = false
                 emit('setPosition',axis.value)
+                //checks the suer place input facing direction. 
+                //based on what it is, it will set the staging var turn to the value north,south,west, or east.
                 for(let key in dirVal.value) {
                     if(key == axis.value.facing) {
                         turn.value = dirVal.value[key]
@@ -238,64 +253,82 @@ export default {
     display: flex;
     /* display: flex; */
 }
-.starting-inner .col {
-    margin: 0 10px;
-}
 
+/* adding margin at the top of the button to give it some space */
 .place-button{
     margin:15px auto;
 }
 
-section {
+/* adding spacing to the top and rounding the corners. */
+.controller section {
     padding: 10px;
     margin-top: 50px;
     border-radius: 20px;
-    /* border:white 7px solid; */
-    /* box-shadow: rgba(173, 173, 173, 0.2) 0px 7px 29px 0px;  */
 }
-section:first-child {
+/* but not giving margin to the top panel for it is on the top. */
+.controller section:first-child {
     padding: 10px;
     margin-top: 0;
     border-radius: 20px;
 }
 
+/* spacing on the UI buttons */
 .controls {
     display: flex;
     justify-content: space-around;
 }
+
 .btn {
     width: 150px;
 }
 
- h3 {
+/* give the header some room on the top */
+.control h3 {
     margin-top:105px;
 }
 
+.mass-input input {
+    width: 90%;
+    margin:auto;
+}
+
+/* making items stack on each other and setting the width */
 .mass-input {
   display: flex;
   flex-direction: column;
+  width: 90%;
 }
 
-.mass-input button, .mass-input input{
+/* centing the button */
+.mass-input button{
 margin:auto;
 }
 
+/* this is the showing the user the stage area. */
 .mass-input-textarea {
     width: 300px;
     height: 200px;
     margin:10px auto;
     border:1px black solid;
     border-radius: 20px;
-    background:rgb(156, 21, 21)
+    text-align: left;
+    overflow: scroll
+}
+/* moving the text away from the edge */
+.mass-input-textarea p {
+    padding-left: 5px;
 }
 
+/* helps center items */
 .report-display {
     display: flex;
-    flex-direction: column;
 }
+
+/* centering the button */
 .report-display button{
     margin: auto;
-    align-self: end;
 }
+
+
 
 </style>

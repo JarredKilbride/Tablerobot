@@ -8,13 +8,14 @@
 import { computed } from 'vue'
 export default {
 props:['robot'],
+name:'robot',
 setup(props){
 
-  //computed class to change the class based on the facing direction
+  //computed value to change the class name based on the facing direction
+  //passes the from object from cell>app object.
   const robtTurn = computed(()=>{
     return 'facing-' + props.robot.facing
   })
-
   return {robtTurn}
 }
 }
@@ -23,6 +24,7 @@ setup(props){
 </script>
 
 <style>
+/* setting the robot size */
 .table-robot {
   width: 150px;
   height: 150px;

@@ -4,16 +4,15 @@
     <!-- input/controller. -->
     <Controller class="controller" :robot="robot" @direction="setDirection" @move="move" @report="showReport" @setPosition="place" @updateDir="updateRobotDir"/>
   </div>
-  <div class="flex-jc-c table-top col">
-   
+  <div class="flex-jc-c col">
+   <div class="table-top">
     <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.key"/>
+  </div>
     <!-- cells -->
     <!-- key needs to be changed. -->
   </div>
-  <!-- {{currentDirection}} -->
   <!-- report for robot. -->
   <div v-if="robot.reportActive">
-  <!-- {{robot}} -->
   </div>
  </div> 
 </template>
@@ -30,11 +29,6 @@ export default {
     Cells, Controller
   }, 
   setup(){
-    //currentDirection the robot is facing
-    //not needed
-    let currentDirection = ref({
-      dir:null,
-      val:null})
     //creating robot object
     let robot = ref({
       x:null,
@@ -43,6 +37,7 @@ export default {
       reportActive:false
     })
 
+    //where the cells and values for them is stored.
     let cells = ref([])
 //easy for loop to create all the cells obects.
 for(let y = 4; y>=0; y--) {
@@ -57,12 +52,13 @@ for(let y = 4; y>=0; y--) {
     }
 }
 
+//emit from controller, changes the robot direction on trun.
 let updateRobotDir = (e) => {
     robot.value.facing = e
 }
 
-// when user clicks on move buttom emits this function
-//moves the stage direction to the robot and makes it move.
+//when user clicks on move buttom emits from controller.
+// makes robot it move.
 let move = (e) => {
   //checks to see if the currentDirection y or x aixes
   //once checked looks to see if the total value would be greater the cells on the table. 
@@ -76,20 +72,15 @@ let move = (e) => {
    && robot.value.x+e.val>-1)){
      robot.value.x += e.val
    }
-   else {
-     console.log(robot.value.y+currentDirection.value.val)
-   }
 }
 
-//this emited from the controller.vue
-//stages the selected movment.
+//this is emited from the controller.vue
+//changes the robot obect current facing.
 const setDirection = (event)=> {
-  currentDirection.value.val = event.val
-  currentDirection.value.dir = event.dir
   robot.value.facing = event.facing
 }
 
-//emited from the controller.vue, shows robot report.
+//emited from the controller.vue, toggals robot report. by setting the reportActive to true or false
 const showReport = ()=> {
   if(robot.value.x!==null){
   robot.value.reportActive = !robot.value.reportActive
@@ -102,36 +93,32 @@ const place = (e) => {
   robot.value.x = parseInt(e.x)
   robot.value.y = parseInt(e.y)
   robot.value.facing = e.facing
-
 }
 
-  return {cells,robot,setDirection,move,currentDirection,showReport,place,updateRobotDir}
+  return {cells,robot,setDirection,move,showReport,place,updateRobotDir}
   }
 }
 
 </script>
 
 <style>
-body {
-  background:black
-}
-
-
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #ffffffCC;
   margin-top: 60px;
 }
 
 /* class to create the grid */
 .table-top {
     display: grid;
+
     grid-template-columns: repeat(5, 157.7px);
     margin: auto;
+    width: 788.5px;
+    background-image: url("../src/assets/table-background.png")
+
     /* height: 204px; */
 }
 

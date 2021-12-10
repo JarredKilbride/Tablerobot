@@ -1,10 +1,7 @@
 <template>
   <div class="cell">
+      <!-- checks the robot active computed value and if true it shows the robot. -->
         <Robot :robot="robot" v-if="robotActive" />
-      <!-- <div v-if="robotActive">
-          {{robot.y}}
-      </div> -->
-      <!-- {{cell.x}} -->
   </div>
 </template>
 
@@ -16,12 +13,10 @@ export default {
         components: {
         Robot
     }, 
-    // props:[cell]
     setup(props){
-        //need to rename
         let cells = ref(props.cell)
-        // let robot = ref(props.robot)
 
+// this is checking the where the robot is and if it matches the cell it returns true.
     const robotActive = computed(()=>{
         if(props.cell.x == props.robot.x && props.cell.y == props.robot.y){
             return true
@@ -39,12 +34,14 @@ export default {
 
 <style>
  .cell {
-    width: 157.7px;
-    height: 157.7px;
-    border: 2px solid rgb(75,75,75);
-    
+     /* creating the cell. */
     display: flex;
     align-items: center;
     justify-content: center;
+/* **important** the width here must match the secound argument from table-top class on app.vue */
+/* css feild name : grid-template-columns: repeat(5, 157.7px <- this must be the same) */
+    width: 157.7px;
+    height: 157.7px;
+    border: 2px solid rgba(75, 75, 75, 0.253);
   }
 </style>
