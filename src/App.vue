@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-    <div class="col test">
+    <div class="col">
         <!-- input/controller. -->
         <Controller class="controller" :robot="robot" @direction="setDirection" @move="move" @report="showReport" @setPosition="place" @updateDir="updateRobotDir" />
     </div>
