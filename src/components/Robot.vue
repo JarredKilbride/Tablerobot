@@ -44,4 +44,11 @@ export default {
 .facing-SOUTH {
     transform: rotate(180deg);
 }
+
+ @media only screen and (max-width:480px) { 
+  .table-robot {
+    width: 50px;
+    height: 50px;
+}
+}
 </style>

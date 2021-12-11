@@ -49,4 +49,12 @@ export default {
     height: 157.7px;
     border: 2px solid rgba(75, 75, 75, 0.253);
 }
+
+/* for mobile view makeing the cells smaller */
+ @media only screen and (max-width:480px) { 
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+}
 </style>

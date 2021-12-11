@@ -371,4 +371,10 @@ export default {
 .report-display button {
     margin: auto;
 }
+
+ @media only screen and (max-width:480px) { 
+ .controller section:last-child {
+    margin-bottom: 50px;
+}
+}
 </style>
