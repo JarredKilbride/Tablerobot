@@ -1,18 +1,14 @@
 <template>
 <div class="row">
- <div class="col flex-jc-c">
+ <div class="col">
     <!-- input/controller. -->
     <Controller class="controller" :robot="robot" @direction="setDirection" @move="move" @report="showReport" @setPosition="place" @updateDir="updateRobotDir"/>
   </div>
-  <div class="flex-jc-c col">
+  <div class="col">
    <div class="table-top">
+      <!-- cells/grid -->
     <Cells v-for="cell in cells" :cell="cell" :robot="robot" :key="cell.key"/>
   </div>
-    <!-- cells -->
-    <!-- key needs to be changed. -->
-  </div>
-  <!-- report for robot. -->
-  <div v-if="robot.reportActive">
   </div>
  </div> 
 </template>
@@ -23,7 +19,6 @@ import Cells from './components/Cells.vue'
 import Controller from './components/Controller'
 
 export default {
-  
   name: 'App',
   components: {
     Cells, Controller
@@ -46,8 +41,7 @@ for(let y = 4; y>=0; y--) {
         x:x,
         y: y,
         robotOnSqaure:false,
-        // temp
-        key: Math.floor(Math.random() * 1000)
+        key: `${y}${x}`
         })
     }
 }
@@ -102,10 +96,8 @@ const place = (e) => {
 </script>
 
 <style>
+/* setting the text default to center and apping margin to the top so it has space. */
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 60px;
 }
@@ -113,20 +105,14 @@ const place = (e) => {
 /* class to create the grid */
 .table-top {
     display: grid;
-
+  /* if cell size is changed you must change the size here to the same as the cell. */
     grid-template-columns: repeat(5, 157.7px);
     margin: auto;
     width: 788.5px;
     background-image: url("../src/assets/table-background.png")
-
-    /* height: 204px; */
 }
 
-.flex-jc-c{
- justify-content: center;
-}
-
-
+/* setting the controller size */
  .controller {
    width: 700px;
    margin:auto; 

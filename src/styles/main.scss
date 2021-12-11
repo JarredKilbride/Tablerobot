@@ -1,18 +1,21 @@
-// letting var colors
+// setting var colors values
 $primary:#041C32;
 $secondary:#064663; 
 $primary-text:white;
+$secondary-text:#F6F2D4;
 $action-primary:#ECB365;
-$action-secondary:#ECB365;
 $error:#cf6679;
 
 $theme-colors: (
   "primary":    $primary,
   "secondary":  $secondary,
+  "primary-text":$primary-text,
+  "secondary-text":$secondary-text,
   "action-primary": $action-primary,
-  "action-secondary": $action-secondary,
   "error": $error
-);
+); 
+//changing default font
+$font-family-base:Arial, Helvetica, sans-serif; 
 
 // changing default background color
 $body-bg: $primary;
@@ -22,20 +25,42 @@ $body-color:$primary-text;
 
 //changing the row padding to make it smaller.
 $grid-gutter-width: .2rem;
+//changing the spacing for cols
+$gutters: (
+  0: 0,
+  1: .3rem,
+);
 
 //allowing shadows
 $enable-shadows: true;
 //changing the button shadows
 $btn-box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;   
 
+//label 
+$form-label-margin-bottom: .6rem;
+
+// buttons
+$btn-hover-border-shade-amount:0%;
+$btn-active-border-shade-amount:0%;
+$btn-active-bg-shade-amount:0%;
+// removes the highlight from the button when clicked.
+$btn-focus-width: 0px;
+
+//headers
+//changing header margins.
+$headings-margin-bottom:.7rem;
+$headings-color:$secondary-text;  
+//lowering the font weight.
+$headings-font-weight: 400;
+
 //input
-
+//removing the border
 $input-border-width:0px;
-//changing the drop down arrow
+//changing the drop down arrow color
 $form-select-indicator-color:$primary-text;
+// remove the highlight when drop down is selected.
+$form-select-focus-width: 0px ;
 
-// $body-color: #ffffffCC;
-$dropdown-link-color: white;
 // applying a border radius to all elements.
 $border-radius: 40px;
 
