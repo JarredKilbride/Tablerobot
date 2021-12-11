@@ -126,8 +126,8 @@ export default {
 
         //stageing var for moving.
         let turn = ref({
-            val: 0,
-            dir: "x",
+            val: "",
+            dir: "",
             facing: ""
         })
 
